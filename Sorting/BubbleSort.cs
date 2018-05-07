@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace MyAlgorithms
+﻿namespace MyAlgorithms
 {
-    class BubbleSort
+    public static class BubbleSort
     {
         // Exchange the position of two values in an array
         private static void Exchange<T>(T[] data, int indexA, int indexB)
@@ -21,7 +19,7 @@ namespace MyAlgorithms
         public static void Sort(int[] data)
         {
             // Loop through the array from the start
-            for (int j = 0; j < data.Length; j++)
+            for (int j = 0; j < data.Length - 1; j++)
             {
                 // Loop through the array from the end
                 for (int i = data.Length - 1; i > j; i--)
@@ -33,21 +31,6 @@ namespace MyAlgorithms
                         Exchange(data, (i - 1), i);
                 }
             }
-        }
-
-        static void Main(string[] args)
-        {
-            // Create an array of integers
-            int[] data = new int[] { 5, 9, 3, 1, 2, 8, 4, 7, 6 };
-
-            // Sort the array using Bubble Sort
-            Sort(data);
-
-            // Print the array on the screen
-            Console.WriteLine(string.Join(" ", data));
-
-            // Wait for user input
-            Console.ReadKey();
         }
     }
 }
