@@ -1,6 +1,6 @@
 ﻿namespace MyAlgorithms
 {
-    public class SelectionSort
+    public static class SelectionSort
     {
         // Exchange the position of two values in an array
         private static void Exchange<T>(T[] data, int indexA, int indexB)
