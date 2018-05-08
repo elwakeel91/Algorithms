@@ -1,2 +1,3 @@
 # Algorithms
-Practe creating different algorithms
+
+Practice re-creating established algorithms
