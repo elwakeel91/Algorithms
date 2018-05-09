@@ -11,6 +11,7 @@
         /// <returns> The index of the desired number or -1 if it was not found </returns>
         public static int Search(int[] data, int number)
         {
+            // Initialise the minimum and maximum indicies
             int minIndex = 0;
             int maxIndex = data.Length - 1;
 
