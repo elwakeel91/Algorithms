@@ -68,5 +68,37 @@ namespace MyAlgorithms.UnitTest
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
+
+        [TestMethod]
+        public void JumpSearch_NumberFound_Two()
+        {
+            // Arrange
+            int[] data = new int[] { 10, 20, 30, 40, 50 };
+            int searchNumber = 30;
+            int result = 0;
+            int expectedResult = 2;
+
+            // Act
+            result = JumpSearch.Search(data, searchNumber);
+
+            // Assert
+            Assert.AreEqual(result, expectedResult);
+        }
+
+        [TestMethod]
+        public void JumpSearch_NumberNotFound_MinusOne()
+        {
+            // Arrange
+            int[] data = new int[] { 10, 20, 30, 40, 50 };
+            int searchNumber = 200;
+            int result = 0;
+            int expectedResult = -1;
+
+            // Act
+            result = JumpSearch.Search(data, searchNumber);
+
+            // Assert
+            Assert.AreEqual(result, expectedResult);
+        }
     }
 }

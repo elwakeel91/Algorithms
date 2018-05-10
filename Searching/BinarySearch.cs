@@ -4,9 +4,9 @@
     public static class BinarySearch
     {
         /// <summary>
-        /// Performs a search on an integer array
+        /// Performs a search on a sorted integer array
         /// </summary>
-        /// <param name="data"> Integer array to search through </param>
+        /// <param name="data"> Data to search through </param>
         /// <param name="number"> The number you are searching for </param>
         /// <returns> The index of the desired number or -1 if it was not found </returns>
         public static int Search(int[] data, int number)
@@ -14,12 +14,13 @@
             // Initialise the minimum and maximum indicies
             int minIndex = 0;
             int maxIndex = data.Length - 1;
+            int midIndex = 0;
 
             // If the maximum and minimum indicies are not equal
             while (maxIndex >= minIndex)
             {
                 // Check the number in the middle of the array
-                int midIndex = ((maxIndex - minIndex) / 2) + minIndex;
+                midIndex = ((maxIndex - minIndex) / 2) + minIndex;
 
                 // If it's the number we're looking for
                 if (data[midIndex] == number)
