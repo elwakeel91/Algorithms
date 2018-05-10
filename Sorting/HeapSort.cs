@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MyAlgorithms
+﻿namespace MyAlgorithms
 {
     public static class HeapSort
     {
@@ -13,74 +10,41 @@ namespace MyAlgorithms
             heap.Sort(data);
         }
 
-        // Exchange the position of two values in an array
-        private static void Exchange(Node nodeA, Node nodeB)
-        {
-            // Store the first value in a new temporary value
-            int tempValue = nodeA.value;
-
-            // Set the first value equal to the second value
-            nodeA.value = nodeB.value;
-
-            // Set the second value equal to the temporary value
-            nodeB.value = tempValue;
-        }
-
-        // A private Node class
-        private class Node
-        {
-            // Private Variables
-            public int value;                                                 // Value stored at the node
-            public int parentIndex;                                           // Parent node index
-            public int leftChildIndex;                                        // Left child index
-            public int rightChildIndex;                                       // Right child index
-
-            // Constructor
-            public Node(int value, int index)
-            {
-                // Initialise the variables
-                this.value = value;
-                this.parentIndex = (index % 2 == 0) ? (index - 2) / 2 : (index - 1) / 2;
-                this.leftChildIndex = (index * 2) + 1;
-                this.rightChildIndex = (index * 2) + 2;
-            }
-        }
-
         // A Heap class that contains 'Nodes' (similar to a tree)
         private class Heap
         {
             // Array of nodes
-            private Node[] mNodes;
+            private int[] mNodes;
 
             // Empty constructor
             public Heap()
             {
-                
+
             }
 
             // Initialise the heap with an array of integers
             public void Init(int[] data)
             {
                 // Initialise the size of the array of nodes
-                mNodes = new Node[data.Length];
+                mNodes = new int[data.Length];
 
                 // Initialise the first node
-                mNodes[0] = new Node(data[0], 0);
+                mNodes[0] = data[0];
 
                 // Loop through the heap starting at the first child node
                 for (int i = 1; i < data.Length; i++)
                 {
                     // Create a new node
-                    mNodes[i] = new Node(data[i], i);
+                    mNodes[i] = data[i];
 
                     // Get the index of the parent
-                    int parentIndex = mNodes[i].parentIndex;
+                    int parentIndex = GetParent(i);
 
                     // Loop up the heap until the largest number is at the top
-                    for (int j = i; mNodes[parentIndex].value < mNodes[j].value;)
+                    for (int j = i; mNodes[parentIndex] < mNodes[j];)
                     {
                         // Switch the two nodes
-                        Exchange(mNodes[parentIndex], mNodes[j]);
+                        Exchange(mNodes, parentIndex, j);
 
                         // If we reached the top of the tree
                         if (parentIndex == 0)
@@ -90,7 +54,7 @@ namespace MyAlgorithms
                         j = parentIndex;
 
                         // Set the new parent node
-                        parentIndex = mNodes[j].parentIndex;
+                        parentIndex = GetParent(j);
                     }
                 }
             }
@@ -99,47 +63,73 @@ namespace MyAlgorithms
             public void Sort(int[] data)
             {
                 // Length of the array
-                int n = mNodes.Length;
+                int n = data.Length;
 
-                // Variable to hold our sorted array
-                //int[] sortedData = new int[n];
-                
-                // Loop through the heap from the bottom
+                // Loop through the nodes from the bottom
                 for (int i = n - 1; i >= 0; i--)
                 {
-                    // Store the value at the top of the heap at the end of the sorted array
-                    data[i] = mNodes[0].value;
+                    // Store the value at the top of the heap onto the end of the sorted array
+                    data[i] = mNodes[0];
 
-                    // Store the current index of the heap at the top
-                    Exchange(mNodes[i], mNodes[0]);
+                    // Copy the current node onto the top
+                    Exchange(mNodes, i, 0);
 
-                    // Set the value of last node to 0
-                    mNodes[i].value = 0;
+                    // Set the value of the current node to zero so we don't use it again
+                    mNodes[i] = 0;
 
-                    // Set the largest child index
-                    int largestChildIndex = mNodes[1].value > mNodes[2].value ? 1 : 2;
+                    // Get the the index of the largest child at the top of the heap
+                    int largestChildIndex = mNodes[1] > mNodes[2] ? 1 : 2;
 
-                    // Loop down the tree until the largest number is at the top
-                    for (int j = 0; mNodes[largestChildIndex].value > mNodes[j].value; )
+                    // Loop down the heap only if the child is larger than the parent and bubble the parent down
+                    for (int j = 0; mNodes[largestChildIndex] > mNodes[j];)
                     {
                         // Switch the two nodes
-                        Exchange(mNodes[largestChildIndex], mNodes[j]);
+                        Exchange(mNodes, largestChildIndex, j);
 
                         // Set the old parent node as the current node
                         j = largestChildIndex;
 
-                        // Set the new children index
-                        int leftChildIndex = mNodes[j].leftChildIndex;
-                        int rightChildIndex = mNodes[j].rightChildIndex;
+                        // Set the new children indicies
+                        int leftChildIndex = (j * 2) + 1;
+                        int rightChildIndex = (j * 2) + 2;
 
-                        // If the children are out of range, break out of the loop
-                        if (rightChildIndex >= n || leftChildIndex >=n)
+                        // If both children are out of range, break out of the loop
+                        if (rightChildIndex >= n && leftChildIndex >= n)
                             break;
 
-                        // Set the largest child index
-                        largestChildIndex = mNodes[leftChildIndex].value > mNodes[rightChildIndex].value ? leftChildIndex : rightChildIndex;
+                        // Else if only the left child is out of range
+                        else if (rightChildIndex < n && leftChildIndex >= n)
+                            // Choose the right child as the new largest child
+                            largestChildIndex = rightChildIndex;
+
+                        // Else if only the right child is out of range
+                        else if (rightChildIndex >= n && leftChildIndex < n)
+                            // Choose the left child as the new largest child
+                            largestChildIndex = leftChildIndex;
+
+                        else // Find the new largest child
+                            largestChildIndex = mNodes[leftChildIndex] > mNodes[rightChildIndex] ? leftChildIndex : rightChildIndex;
                     }
                 }
+            }
+
+            // Get the parent index of a node
+            private static int GetParent(int index)
+            {
+                return (index % 2 == 0) ? (index - 2) / 2 : (index - 1) / 2;
+            }
+
+            // Exchange the position of two values in an array
+            private static void Exchange<T>(T[] data, int indexA, int indexB)
+            {
+                // Store the first value in a new temporary value
+                T temp = data[indexA];
+
+                // Set the first value equal to the second value
+                data[indexA] = data[indexB];
+
+                // Set the second value equal to the temporary value
+                data[indexB] = temp;
             }
         }
     }

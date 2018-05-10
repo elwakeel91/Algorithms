@@ -2,19 +2,6 @@
 {
     public static class BubbleSort
     {
-        // Exchange the position of two values in an array
-        private static void Exchange<T>(T[] data, int indexA, int indexB)
-        {
-            // Store the first value in a new temporary value
-            T temp = data[indexA];
-
-            // Set the first value equal to the second value
-            data[indexA] = data[indexB];
-
-            // Set the second value equal to the temporary value
-            data[indexB] = temp;
-        }
-
         // Sorts an integer array using Bubble Sort
         public static void Sort(int[] data)
         {
@@ -31,6 +18,19 @@
                         Exchange(data, (i - 1), i);
                 }
             }
+        }
+
+        // Exchange the position of two values in an array
+        private static void Exchange<T>(T[] data, int indexA, int indexB)
+        {
+            // Store the first value in a new temporary value
+            T temp = data[indexA];
+
+            // Set the first value equal to the second value
+            data[indexA] = data[indexB];
+
+            // Set the second value equal to the temporary value
+            data[indexB] = temp;
         }
     }
 }
