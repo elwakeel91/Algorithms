@@ -48,6 +48,20 @@ namespace MyAlgorithms.UnitTest
         }
 
         [TestMethod]
+        public void ShellSort_GivenUnsortedArray_SortedArray()
+        {
+            // Arrange
+            int[] unsorted = new int[] { 4, 3, 2, 1, 5, 3 };
+            int[] expectedResult = new int[] { 1, 2, 3, 3, 4, 5 };
+
+            // Act
+            ShellSort.Sort(unsorted);
+
+            // Assert
+            CollectionAssert.AreEqual(unsorted, expectedResult);
+        }
+
+        [TestMethod]
         public void HeapSort_GivenUnsortedArray_SortedArray()
         {
             // Arrange
@@ -73,6 +87,20 @@ namespace MyAlgorithms.UnitTest
 
             // Assert
             CollectionAssert.AreEqual(data, expectedResult);
+        }
+
+        [TestMethod]
+        public void QuickSort_GivenUnsortedArray_SortedArray()
+        {
+            // Arrange
+            int[] unsorted = new int[] { 4, 3, 5, 1, 2, 6 };
+            int[] sorted = new int[] { 1, 2, 3, 4, 5, 6 };
+
+            // Act
+            QuickSort.Sort(unsorted, 0, 5);
+
+            // Assert
+            CollectionAssert.AreEqual(sorted, unsorted);
         }
     }
 }
